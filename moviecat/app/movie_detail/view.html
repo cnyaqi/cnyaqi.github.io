@@ -1,0 +1,9 @@
+<h1 class="page-header">{{title}}</h1>
+<div class="list-group">
+    <img ng-src="{{movie.images.large}}" alt="{{title}}" />
+    <p>{{movie.summary}}</p>
+</div>
+
+<div class="loading" ng-show="loading">
+    <div class="spinner"></div>
+</div>
