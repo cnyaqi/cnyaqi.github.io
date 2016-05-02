@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Document</title>
+</head>
+
+<body>
+  IndexexDB 练习界面
+</body>
+<script>
+var dbInfo = {
+  dbName: 'aptdb',
+  dbVersion: 2020, // 版本号只能越来越大, 否则会发生意想不到的结果
+  dbInstance: {}
+};
+// 创建数据库
+var dbContent = window.indexedDB.open(dbInfo.dbName, dbInfo.dbVersion);
+
+// 判断数据库版本号 是否更新了(创建和修改)
+dbContent.onupgradeneeded = function(e) {
+  // 创建数据库store表
+  var _db = e.target.result;
+  var storeNames = _db.objectStoreNames;
+  if (!storeNames.contains('cart')) {
+    _db.createObjectStore('cart', {
+      keyPath: 'goodsId', // 唯一证明
+      autoIncrement: true // 是否自动增长
+    });
+  }
+  if (!storeNames.contains('products')) {
+    _db.createObjectStore('products', {
+      keyPath: 'goodsId', // 唯一证明
+      autoIncrement: true // 是否自动增长
+    });
+  }
+};
+// 数据库 创建成功的时候(增删改查操作)
+dbContent.onsuccess = function(e) {
+  var _db = e.target.result;
+
+  var trans = _db.transaction(['cart', 'products'], 'readwrite'); // 表名, 事务权限
+
+  var store = trans.objectStore('cart'); // 获得表
+  var store1 = trans.objectStore('products'); // 获得表
+
+
+  // 增加数据
+  // var req = store.add({
+  //   goodsId: 'dffff',
+  //   prise: 12.3,
+  //   name: "衣服",
+  //   size: "M"
+  // });
+
+  // // 修改数据
+ 	// var req = store.put({
+  //   goodsId: 'df',
+  //   prise: 12.3,
+  //   name: "衣服",
+  //   size: "L"
+ 	// });
+
+ 	// // 查询数据
+ 	// var req = store.get('df');
+
+
+ 	// var req = store.delete('df'); // 删除数据
+ 	// // 删除表中的所有的数据
+ 	// var req = store.clear();
+
+
+
+
+ 	// 游标查询所有的数据
+ 	var cursor = store.openCursor();
+ 	var data = [];
+
+ 	cursor.onsuccess = function(e) {
+ 		var result = e.target.result;
+ 		if(result && result !== null) {
+ 			data.push(result.value);
+ 			result.continue();
+ 		}
+ 		console.log(data)
+ 	} 
+
+
+
+
+
+
+  // req.onsuccess = function(e) {
+  // 	console.log(e);
+  // 	console.log('数据更新成功~~~~');
+  // };
+
+  // req.onerror = function() {
+  // 	console.log('数据更新失败~~~~');
+  // };
+
+
+};
+
+// 数据库创建失败
+dbContent.onerror = function(e) {
+
+};
+
+// 这个不知道是什么? 事件
+dbContent.onblocked = function(e) {
+
+};
+</script>
+
+</html>

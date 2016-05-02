@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Document</title>
+</head>
+
+<body>
+  IndexexDB 练习界面
+</body>
+<script>
+// 获取indexdb对象,为了兼容性的写法
+// 1、获取对象
+window.indexedDB = window.indexedDB || window.mozIndexedDB || window.webkitIndexedDB || window.msIndexedDB;
+window.IDBTransaction = window.IDBTransaction || window.webkitIDBTransaction || window.msIDBTransaction;
+window.IDBKeyRange = window.IDBKeyRange || window.webkitIDBKeyRange || window.msIDBKeyRange;
+window.IDBCursor = window.IDBCursor || window.webkitIDBCursor || window.msIDBCursor;
+
+
+// 数据库详细信息
+var dbInfo = {
+  dbName: 'aptdb', // 数据库名称
+  dbVersion: '2015', // 数据库版本
+  dbInstance: {} // 
+};
+
+// 创建数据库
+var dbContent = window.indexedDB.open(dbInfo.dbName, dbInfo.dbVersion);
+
+
+
+
+
+
+
+</script>
+
+</html>
